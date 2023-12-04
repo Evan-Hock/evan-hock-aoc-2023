@@ -15,11 +15,15 @@ int main() {
     std::ifstream input{"input.txt"};
     std::string curr, next;
     std::getline(std::getline(input, curr), next);
-    std::string prev('.', curr.size());
+    if (!input) {
+        next = std::string(curr.size(), '.');
+    }
+    
+    std::string prev(curr.size(), '.');
     
     std::uintmax_t out = 0;
     
-    bool die = false;
+    bool die = bool(input);
     while (true) {
         // for each position in the current string
         for (int i = 0; i < curr.size(); ) {
@@ -58,7 +62,7 @@ int main() {
         prev = std::move(curr);
         curr = std::move(next);
         if (!std::getline(input, next)) {
-            next = std::string('.', curr.size());
+            next = std::string(curr.size(), '.');
             die = true;
         } 
     }
