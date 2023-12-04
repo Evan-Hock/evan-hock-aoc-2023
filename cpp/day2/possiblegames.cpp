@@ -39,27 +39,25 @@ int main() {
     
     int out = 0;
     
-    {
-        for (int game_id = 1; input.ignore(std::numeric_limits<std::streamsize>::max(), ':'); ++game_id) {
-            std::string line;
-            std::getline(input, line);
+    for (int game_id = 1; input.ignore(std::numeric_limits<std::streamsize>::max(), ':'); ++game_id) {
+        std::string line;
+        std::getline(input, line);
+        
+        bool possible = true;
+        std::istringstream liness{line};
+        for (std::string cubeinfo; std::getline(liness, cubeinfo, ';'); ) {
+            std::istringstream cubess{cubeinfo};
+            bag_t bag;
+            cubess >> bag;
             
-            bool possible = true;
-            std::istringstream liness{line};
-            for (std::string cubeinfo; std::getline(liness, cubeinfo, ';'); ) {
-                std::istringstream cubess{cubeinfo};
-                bag_t bag;
-                cubess >> bag;
-                
-                if (bag.exceeds(kCubeLimit)) {
-                    possible = false;
-                    break;
-                }
+            if (bag.exceeds(kCubeLimit)) {
+                possible = false;
+                break;
             }
-            
-            if (possible) {
-                out += game_id;
-            }
+        }
+        
+        if (possible) {
+            out += game_id;
         }
     }
     
