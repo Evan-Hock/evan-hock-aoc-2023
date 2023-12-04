@@ -7,7 +7,7 @@
 struct bag_t {
     int red, green, blue;
     
-    bool exceeds(const bag_t& o) {
+    bool exceeds(const bag_t& o) const {
         return this->red > o.red || this->green > o.green || this->blue > o.blue;
     }
 };
