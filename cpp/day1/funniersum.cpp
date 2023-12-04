@@ -6,9 +6,6 @@
 #include <span>
 #include <string_view>
 
-const std::array<const char*, 9> number_strings = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
-const char* const digits = "0123456789";
-
 inline int digit_to_int(char digit);
 
 enum class converter_type {
@@ -42,6 +39,8 @@ int digit_to_int(char digit) {
     return digit - '0';
 }
 
+const std::array<const char*, 9> kNumberStrings = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+const char* const kDigits = "0123456789";
 
 template<converter_type Type = converter_type::front>
 struct converter_functions {
@@ -50,10 +49,10 @@ struct converter_functions {
     }
     
     static std::size_t digit_finder(std::string_view sv) {
-        return sv.find_first_of(digits);
+        return sv.find_first_of(kDigits);
     }
     
-    static const std::size_t& digit_location_finder(const std::size_t& digit, std::span<std::size_t, number_strings.size()> locations) {
+    static const std::size_t& digit_location_finder(const std::size_t& digit, std::span<std::size_t, kNumberStrings.size()> locations) {
         return std::min(digit, *std::min_element(locations.begin(), locations.end()));
     }
 };
@@ -65,10 +64,10 @@ struct converter_functions<converter_type::back> {
     }
     
     static std::size_t digit_finder(std::string_view sv) {
-        return sv.find_last_of(digits);
+        return sv.find_last_of(kDigits);
     }
     
-    static const std::size_t& digit_location_finder(const std::size_t& digit, std::span<std::size_t, number_strings.size()> locations) {
+    static const std::size_t& digit_location_finder(const std::size_t& digit, std::span<std::size_t, kNumberStrings.size()> locations) {
         const auto npos_smallest_comparison = [] (std::size_t x, std::size_t y) -> bool {
             if (x == std::string::npos) {
                 return y != std::string::npos;
@@ -87,8 +86,8 @@ struct converter_functions<converter_type::back> {
 
 template<converter_type Type>
 int convert(std::string_view sv) {
-    std::array<std::size_t, number_strings.size()> string_locations;
-    std::transform(number_strings.cbegin(), number_strings.cend(), string_locations.begin(),
+    std::array<std::size_t, kNumberStrings.size()> string_locations;
+    std::transform(kNumberStrings.cbegin(), kNumberStrings.cend(), string_locations.begin(),
                    [sv] (const char* number_string) {
                         return converter_functions<Type>::number_string_finder(sv, number_string);
                    }
