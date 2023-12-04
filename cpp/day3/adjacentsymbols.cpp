@@ -11,6 +11,9 @@ bool adjacent_symbol(std::string_view prev, std::string_view next, int pos);
 
 bool issymbol(char c);
 
+// day 3 part 1
+// sum of all part numbers, defined as those numbers in the block of text
+// that are adjacent to a symbol
 int main() {
     std::ifstream input{"input.txt"};
     std::string curr, next;
@@ -25,7 +28,6 @@ int main() {
     
     bool die = !input;
     while (true) {
-        // for each position in the current string
         for (int i = 0; i < curr.size(); ) {
             std::string number_string;
             
