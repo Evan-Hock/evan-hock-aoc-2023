@@ -23,7 +23,7 @@ int main() {
     
     std::uintmax_t out = 0;
     
-    bool die = bool(input);
+    bool die = !input;
     while (true) {
         // for each position in the current string
         for (int i = 0; i < curr.size(); ) {
