@@ -4,6 +4,7 @@
 
 inline int digit_to_int(char digit);
 
+// day 1 part 1
 int main() {
     std::ifstream input{"input.txt"};
     
