@@ -7,8 +7,7 @@
 #include <string_view>
 
 const std::array<const char*, 9> number_strings = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
-
-const char* digits = "0123456789";
+const char* const digits = "0123456789";
 
 inline int digit_to_int(char digit);
 
@@ -19,7 +18,9 @@ enum class converter_type {
 
 template<converter_type Type>
 int convert(std::string_view sv);
-    
+
+// day 1 part 2
+// number words count as digits too
 int main() {
     std::ifstream input{"input.txt"};
     
