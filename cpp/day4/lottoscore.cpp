@@ -84,12 +84,12 @@ std::uintmax_t score(const std::vector<lotto_t>& lottery) {
             }
             
             std::size_t nwins = intersect(it->winning_numbers, it->scratched_numbers).size();
-            std::uintmax_t out = 0;
-            for (std::size_t i = 0; i < nwins; ++i) {
+            std::uintmax_t out = nwins;
+            for (std::size_t i = 1; i <= nwins; ++i) {
                 out += score_recurse(it + i);
             }
             
-            return out;
+            return (memo[it - lottery.cbegin()] = out).value();
         };
     
     std::uintmax_t out = 0;
