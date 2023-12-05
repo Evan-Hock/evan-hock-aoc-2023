@@ -14,7 +14,8 @@ int main() {
     
     std::uintmax_t out;
     
-    while (input.ignore(std::numeric_limits<std::streamsize>::max(), ':')) {
+    while (!input.eof()) {
+        input.ignore(std::numeric_limits<std::streamsize>::max(), ':');
         
         std::set<int> winning_numbers = get_lotto_numbers(input);
         
@@ -44,8 +45,8 @@ std::set<int> get_lotto_numbers(std::istream& input) {
         }
     } while (input);
     
-    if (!input.eof()) {
-        input.clear();
+    if (input.fail()) {
+        input.clear(input.rdstate() & input.eofbit);
     }
     
     return out;
