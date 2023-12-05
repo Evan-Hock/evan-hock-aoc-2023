@@ -43,7 +43,7 @@ std::set<int> get_lotto_numbers(std::istream& input) {
         }
     } while (input);
     
-    if (!input.eof()) {
+    if (input.fail()) {
         input.clear();
     }
     
