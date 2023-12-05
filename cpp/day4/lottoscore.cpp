@@ -77,19 +77,20 @@ std::set<T> intersect(const std::set<T>& x, const std::set<T>& y) {
 
 std::uintmax_t score(const std::vector<lotto_t>& lottery) {
     std::vector<std::optional<std::size_t>> memo(lottery.size());
-    const std::function<std::uintmax_t(std::vector<lotto_t>::const_iterator)> score_recurse = [score_recurse, &memo, &lottery] (std::vector<lotto_t>::const_iterator it) -> std::uintmax_t {
-        if (std::optional<std::size_t> memo_result = memo[it - lottery.cbegin()]) {
-            return memo_result.value();
-        }
-        
-        std::size_t nwins = intersect(it->winning_numbers, it->scratched_numbers).size();
-        std::uintmax_t out = 0;
-        for (std::size_t i = 0; i < nwins; ++i) {
-            out += score_recurse(it + i);
-        }
-        
-        return out;
-    };
+    std::function<std::uintmax_t(std::vector<lotto_t>::const_iterator)> score_recurse =
+        [&] (std::vector<lotto_t>::const_iterator it) -> std::uintmax_t {
+            if (std::optional<std::size_t> memo_result = memo[it - lottery.cbegin()]) {
+                return memo_result.value();
+            }
+            
+            std::size_t nwins = intersect(it->winning_numbers, it->scratched_numbers).size();
+            std::uintmax_t out = 0;
+            for (std::size_t i = 0; i < nwins; ++i) {
+                out += score_recurse(it + i);
+            }
+            
+            return out;
+        };
     
     std::uintmax_t out = 0;
     for (auto lotto = lottery.cbegin(); lotto != lottery.cend(); ++lotto) {
