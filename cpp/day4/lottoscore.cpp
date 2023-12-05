@@ -23,7 +23,8 @@ std::uintmax_t score(const std::vector<lotto_t>& lottery);
 
 // day 4 part 2
 // sum the scores of lottery games based on this criteria
-// s = 2 ^ (n - 1)
+// every lotto card allows you to win an additional |w ∩ s| lotto cards
+// where w and s are the winning numbers and scratched numbers
 int main() {
     std::ifstream input{"input.txt"};
     
