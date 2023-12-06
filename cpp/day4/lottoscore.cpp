@@ -80,8 +80,9 @@ std::uintmax_t score(const std::vector<lotto_t>& lottery) {
     std::vector<std::optional<std::size_t>> memo(lottery.size());
     std::function<std::uintmax_t(std::vector<lotto_t>::const_iterator)> score_recurse =
         [&] (std::vector<lotto_t>::const_iterator it) -> std::uintmax_t {
-            if (std::optional<std::size_t> memo_result = memo[it - lottery.cbegin()]) {
-                return memo_result.value();
+            std::optional<std::size_t>& memo_ref = memo[it - lottery.cbegin()];
+            if (memo_ref) {
+                return memo_ref.value();
             }
             
             std::size_t nwins = intersect(it->winning_numbers, it->scratched_numbers).size();
@@ -90,7 +91,7 @@ std::uintmax_t score(const std::vector<lotto_t>& lottery) {
                 out += score_recurse(it + i);
             }
             
-            return (memo[it - lottery.cbegin()] = out).value();
+            return (memo_ref = out).value();
         };
     
     std::uintmax_t out = lottery.size();
