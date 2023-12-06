@@ -1,10 +1,11 @@
-#include <algorithm>
 #include <cstdint>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <optional>
 #include <set>
+#include <string>
 #include <vector>
 
 struct lotto_t {
@@ -21,6 +22,9 @@ std::set<T> intersect(const std::set<T>& x, const std::set<T>& y);
 
 std::uintmax_t score(const std::vector<lotto_t>& lottery);
 
+template<class CharT, class Traits = std::char_traits<CharT>>
+std::basic_istream<CharT, Traits>& ignore_until(CharT delim, std::basic_istream<CharT, Traits>& is);
+
 // day 4 part 2
 // sum the scores of lottery games based on this criteria
 // every lotto card allows you to win an additional |w ∩ s| lotto cards
@@ -29,21 +33,18 @@ int main() {
     std::ifstream input{"input.txt"};
     
     std::vector<lotto_t> lottery;
-    
-    while (!input.eof()) {
+    do {
         lotto_t lotto;
         input >> lotto;
         lottery.push_back(std::move(lotto));
-    }
-              
+    } while (!input.eof());
+    
     std::cout << score(lottery) << std::endl;
 }
 
 std::istream& operator>>(std::istream& input, lotto_t& out) {
-    input.ignore(std::numeric_limits<std::streamsize>::max(), ':');
-    out.winning_numbers = out.get_lotto_numbers(input);
-    input.ignore(std::numeric_limits<std::streamsize>::max(), '|');
-    out.scratched_numbers = out.get_lotto_numbers(input);
+    out.winning_numbers = out.get_lotto_numbers(ignore_until(':', input));
+    out.scratched_numbers = out.get_lotto_numbers(ignore_until('|', input));
     return input;
 }
 
@@ -57,9 +58,7 @@ std::set<int> lotto_t::get_lotto_numbers(std::istream& input) {
         }
     } while (input);
     
-    if (input.fail()) {
-        input.clear(input.rdstate() & input.eofbit);
-    }
+    input.clear(input.rdstate() & ~input.failbit);
     
     return out;
 }
@@ -100,4 +99,9 @@ std::uintmax_t score(const std::vector<lotto_t>& lottery) {
     }
     
     return out;
+}
+
+template<class CharT, class Traits>
+std::basic_istream<CharT, Traits>& ignore_until(CharT delim, std::basic_istream<CharT, Traits>& is) {
+    return is.ignore(std::numeric_limits<std::streamsize>::max(), delim);
 }
