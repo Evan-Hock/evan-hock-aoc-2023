@@ -93,7 +93,7 @@ std::uintmax_t score(const std::vector<lotto_t>& lottery) {
             return (memo[it - lottery.cbegin()] = out).value();
         };
     
-    std::uintmax_t out = 0;
+    std::uintmax_t out = lottery.size();
     for (auto lotto = lottery.cbegin(); lotto != lottery.cend(); ++lotto) {
         out += score_recurse(lotto);
     }
