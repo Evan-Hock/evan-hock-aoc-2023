@@ -30,7 +30,7 @@ std::basic_istream<CharT, Traits>& ignore_until(CharT delim, std::basic_istream<
 // every lotto card allows you to win an additional |w ∩ s| lotto cards
 // where w and s are the winning numbers and scratched numbers
 int main() {
-    std::ifstream input{"input.txt"};
+    std::ifstream input{"../../input/day4.txt"};
     
     std::vector<lotto_t> lottery;
     do {

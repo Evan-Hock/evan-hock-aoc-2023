@@ -10,7 +10,7 @@ std::set<int> get_lotto_numbers(std::istream& input);
 // sum the scores of lottery games based on this criteria
 // s = 2 ^ (n - 1)
 int main() {
-    std::ifstream input{"input.txt"};
+    std::ifstream input{"../../input/day4.txt"};
     
     std::uintmax_t out;
     

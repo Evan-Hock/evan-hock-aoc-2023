@@ -19,7 +19,7 @@ int convert(std::string_view sv);
 // day 1 part 2
 // number words count as digits too
 int main() {
-    std::ifstream input{"input.txt"};
+    std::ifstream input{"../../input/day1.txt"};
     
     std::uintmax_t out = 0;
     

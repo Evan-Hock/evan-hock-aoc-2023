@@ -37,7 +37,7 @@ std::istream& operator>>(std::istream& is, bag_t& out) {
 // output their "power", which is defined as the product of
 // their cube totals
 int main() {
-    std::ifstream input{"input.txt"};
+    std::ifstream input{"../../input/day2.txt"};
     
     std::uintmax_t out = 0;
     

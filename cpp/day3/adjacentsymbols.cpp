@@ -15,7 +15,7 @@ bool issymbol(char c);
 // sum of all part numbers, defined as those numbers in the block of text
 // that are adjacent to a symbol
 int main() {
-    std::ifstream input{"input.txt"};
+    std::ifstream input{"../../input/day3.txt"};
     std::string curr, next;
     std::getline(std::getline(input, curr), next);
     if (!input) {
