@@ -37,10 +37,8 @@ const bag_t kCubeLimit{12, 13, 14};
 int main() {
     int out = 0;
     
-    for (int game_id = 1; std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ':'); ++game_id) {
-        std::string line;
-        std::getline(std::cin, line);
-        
+    std::string line;
+    for (int game_id = 1; std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ':') && std::getline(std::cin, line); ++game_id) {
         bool possible = true;
         std::istringstream liness{line};
         for (std::string cubeinfo; std::getline(liness, cubeinfo, ';'); ) {
@@ -54,7 +52,7 @@ int main() {
             }
         }
         
-        if (possible && std::cin) {
+        if (possible) {
             out += game_id;
         }
     }
