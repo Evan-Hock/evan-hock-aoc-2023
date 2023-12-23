@@ -16,7 +16,7 @@ sub MAIN($lang, $day, $part, :$ext? is copy) {
     try EVALFILE "$solution-dir/cfg.raku";
 
     my $solution = $solution-dir.IO.dir(test => /.* ".$ext" $/).head; # fetch the solution for the given part
-    my $input = "$*SPEC.curdir()/input/$part.txt"; # fetch the input for the given part
+    my $input = "$*SPEC.curdir()/input/$day.txt"; # fetch the input for the given part
 
     # assume interpreted language if no compiler is specified by config
     without $COMPILER {

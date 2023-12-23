@@ -19,13 +19,11 @@ int convert(std::string_view sv);
 // day 1 part 2
 // number words count as digits too
 int main() {
-    std::ifstream input{"../../input/day1.txt"};
-    
     std::uintmax_t out = 0;
     
     {
         std::string line;
-        while (std::getline(input, line)) {
+        while (std::getline(std::cin, line)) {
             using enum converter_type;
             std::string_view lv{line};
             out += 10 * convert<front>(lv) + convert<back>(lv);
