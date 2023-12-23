@@ -1,11 +1,11 @@
 #!/usr/bin/env raku
 
-sub MAIN($lang, $day, $part, :$ext? is copy) {
+sub MAIN($lang, $day, $part,  Str :$x? is copy) {
     # language-specific build options
     my ($COMPILER, %OPTIONS);
 
     # by default, extension is the same as language
-    $ext //= $lang;
+    $x //= $lang;
 
     # apply language config if it exists
     try EVALFILE "$*SPEC.curdir()/$lang/cfg.raku";
@@ -15,7 +15,7 @@ sub MAIN($lang, $day, $part, :$ext? is copy) {
     # get solution-specific config if it exists
     try EVALFILE "$solution-dir/cfg.raku";
 
-    my $solution = $solution-dir.IO.dir(test => /.* ".$ext" $/).head; # fetch the solution for the given part
+    my $solution = $solution-dir.IO.dir(test => /.* ".$x" $/).head; # fetch the solution for the given part
     my $input = "$*SPEC.curdir()/input/$day.txt"; # fetch the input for the given part
 
     # assume interpreted language if no compiler is specified by config
