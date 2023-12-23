@@ -40,6 +40,10 @@ sub MAIN($lang, $day, $part, :$ext? is copy) {
 
 
 sub rm(IO::Path $dir) {
+    return True unless $dir.e;
+
+    fail "$dir must be a directory" unless $dir.d;
+
     for eager $dir.dir -> $entry {
         if !$entry.l && $entry.d {
             $entry.&rm;
