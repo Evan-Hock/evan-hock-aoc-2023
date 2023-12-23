@@ -1,11 +1,14 @@
 #!/usr/bin/env raku
 
-sub MAIN($lang, $day, $part,  Str :$x? is copy) {
-    # language-specific build options
-    my ($COMPILER, %OPTIONS);
 
-    # by default, extension is the same as language
-    $x //= $lang;
+sub MAIN($lang, $day, $part) {
+    # language-specific build options
+    my $COMPILER;
+    my %OPTIONS;
+    my $EXTENSION = $lang;
+    my $OUTPUT-SPECIFIER = '-o';
+    # my $DEBUGGER;
+    # my $DEBUG-SPECIFIER = '-g';
 
     # apply language config if it exists
     try EVALFILE "$*SPEC.curdir()/$lang/cfg.raku";
@@ -15,8 +18,8 @@ sub MAIN($lang, $day, $part,  Str :$x? is copy) {
     # get solution-specific config if it exists
     try EVALFILE "$solution-dir/cfg.raku";
 
-    my $solution = $solution-dir.IO.dir(test => /.* ".$x" $/).head; # fetch the solution for the given part
-    my $input = "$*SPEC.curdir()/input/$day.txt"; # fetch the input for the given part
+    my $solution = $solution-dir.IO.dir(test => /.* ".$EXTENSION" $/).head;
+    my $input = "$*SPEC.curdir()/input/$day.txt";
 
     # assume interpreted language if no compiler is specified by config
     without $COMPILER {
@@ -24,21 +27,23 @@ sub MAIN($lang, $day, $part,  Str :$x? is copy) {
         return;
     }
 
-    # create a temporary directory to house the build products
+    # assume compiled from here
+    
     my $dirtydir = "$*SPEC.curdir()/temp";
     $dirtydir.IO.mkdir;
 
     # build the program
     my $build-product = "$dirtydir/aoc-main";
-    run $COMPILER, %OPTIONS.kv.grep(* !~~ Bool), '-o', $build-product, $solution;
+    run $COMPILER, %OPTIONS.kv.grep(* !~~ Bool), $OUTPUT-SPECIFIER, $build-product, $solution;
 
-    # run the build product
     run-aoc-program $input, $build-product;
 
     LEAVE try $dirtydir.IO.&rm;
 }
 
 
+#| This function recursively removes a directory and all of its children,
+#| much like the beloved C<rm -r> program.
 sub rm(IO::Path $dir) {
     return True unless $dir.e;
 
@@ -57,9 +62,9 @@ sub rm(IO::Path $dir) {
 
 
 sub run-aoc-program(Str $input, Str $program) {
-    my $input-fh = $input.IO.open:r orelse .fail;
+    my $in = $input.IO.open:r orelse .fail;
 
-    run $program, :in($input-fh);
+    run $program, :$in;
 
-    LEAVE try $input-fh.close;
+    LEAVE try $in.close;
 }
