@@ -35,13 +35,11 @@ const bag_t kCubeLimit{12, 13, 14};
 // day 2 part 1
 // output the sum of the IDs of which games are possible
 int main() {
-    std::ifstream input{"../../input/day2.txt"};
-    
     int out = 0;
     
-    for (int game_id = 1; input.ignore(std::numeric_limits<std::streamsize>::max(), ':'); ++game_id) {
+    for (int game_id = 1; std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ':'); ++game_id) {
         std::string line;
-        std::getline(input, line);
+        std::getline(std::cin, line);
         
         bool possible = true;
         std::istringstream liness{line};
@@ -56,7 +54,7 @@ int main() {
             }
         }
         
-        if (possible) {
+        if (possible && std::cin) {
             out += game_id;
         }
     }

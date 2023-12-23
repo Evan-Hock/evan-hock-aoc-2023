@@ -10,18 +10,16 @@ std::set<int> get_lotto_numbers(std::istream& input);
 // sum the scores of lottery games based on this criteria
 // s = 2 ^ (n - 1)
 int main() {
-    std::ifstream input{"../../input/day4.txt"};
+    std::uintmax_t out = 0;
     
-    std::uintmax_t out;
-    
-    while (!input.eof()) {
-        input.ignore(std::numeric_limits<std::streamsize>::max(), ':');
+    while (!std::cin.eof()) {
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ':');
         
-        std::set<int> winning_numbers = get_lotto_numbers(input);
+        std::set<int> winning_numbers = get_lotto_numbers(std::cin);
         
-        input.ignore(std::numeric_limits<std::streamsize>::max(), '|');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '|');
         
-        std::set<int> scratched_numbers = get_lotto_numbers(input);
+        std::set<int> scratched_numbers = get_lotto_numbers(std::cin);
         
         int score = 0;
         for (int wn : winning_numbers) {

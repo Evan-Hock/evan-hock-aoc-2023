@@ -18,14 +18,13 @@ std::optional<std::size_t> find_earliest_number(std::string_view sv, int pos);
 // day 3 part 2
 // find the sums of all gear ratios
 int main() {
-    std::ifstream input{"../../input/day3.txt"};
     std::string curr, next;
-    std::getline(std::getline(input, curr), next);
+    std::getline(std::getline(std::cin, curr), next);
     std::string prev(curr.size(), '.');
     
     std::uintmax_t out = 0;
     
-    bool die = !input;
+    bool die = !std::cin;
     while (true) {
         for (int gear_idx = 0; gear_idx < curr.size(); ++gear_idx) {
             if ((gear_idx = curr.find('*', gear_idx)) == curr.npos) {
@@ -44,7 +43,7 @@ int main() {
         
         prev = std::move(curr);
         curr = std::move(next);
-        if (!std::getline(input, next)) {
+        if (!std::getline(std::cin, next)) {
             next = std::string(curr.size(), '.');
             die = true;
         } 

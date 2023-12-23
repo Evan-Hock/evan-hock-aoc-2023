@@ -37,13 +37,11 @@ std::istream& operator>>(std::istream& is, bag_t& out) {
 // output their "power", which is defined as the product of
 // their cube totals
 int main() {
-    std::ifstream input{"../../input/day2.txt"};
-    
     std::uintmax_t out = 0;
     
-    for (int game_id = 1; input.ignore(std::numeric_limits<std::streamsize>::max(), ':'); ++game_id) {
+    for (int game_id = 1; std::cin.ignore(std::numeric_limits<std::streamsize>::max(), ':'); ++game_id) {
         std::string line;
-        std::getline(input, line);
+        std::getline(std::cin, line);
         
         bag_t minimum_bag{std::numeric_limits<int>::min(), std::numeric_limits<int>::min(), std::numeric_limits<int>::min()};
         std::istringstream liness{line};

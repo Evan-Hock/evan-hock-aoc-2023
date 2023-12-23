@@ -15,10 +15,9 @@ bool issymbol(char c);
 // sum of all part numbers, defined as those numbers in the block of text
 // that are adjacent to a symbol
 int main() {
-    std::ifstream input{"../../input/day3.txt"};
     std::string curr, next;
-    std::getline(std::getline(input, curr), next);
-    if (!input) {
+    std::getline(std::getline(std::cin, curr), next);
+    if (!std::cin) {
         next = std::string(curr.size(), '.');
     }
     
@@ -26,7 +25,7 @@ int main() {
     
     std::uintmax_t out = 0;
     
-    bool die = !input;
+    bool die = !std::cin;
     while (true) {
         for (int i = 0; i < curr.size(); ) {
             std::string number_string;
@@ -63,7 +62,7 @@ int main() {
         
         prev = std::move(curr);
         curr = std::move(next);
-        if (!std::getline(input, next)) {
+        if (!std::getline(std::cin, next)) {
             next = std::string(curr.size(), '.');
             die = true;
         } 
